@@ -357,6 +357,13 @@ body {
     background-size: 100% 100%, 300% 300%;
     animation: moke-led-flow 5s linear infinite, moke-led-glow 2.4s ease-in-out infinite alternate;
 }
+.elementor-element-9486981,
+.elementor-element-7cf7720 {
+    background:
+        linear-gradient(135deg, #17345C 0%, #214875 52%, #17345C 100%) padding-box,
+        linear-gradient(110deg, #2779BE, #D6A84F, #2779BE, #E8C878, #2779BE) border-box !important;
+    animation: moke-image-led-flow 5s linear infinite, moke-image-led-glow 2.4s ease-in-out infinite alternate;
+}
 @keyframes moke-led-flow {
     from { background-position: 0% 50%, 0% 50%; }
     to { background-position: 0% 50%, 100% 50%; }
@@ -364,6 +371,14 @@ body {
 @keyframes moke-led-glow {
     from { box-shadow: 0 0 12px rgba(39, 121, 190, 0.48), 0 0 24px rgba(168, 230, 160, 0.32); }
     to { box-shadow: 0 0 20px rgba(39, 121, 190, 0.62), 0 0 38px rgba(168, 230, 160, 0.52); }
+}
+@keyframes moke-image-led-flow {
+    from { background-position: 0% 50%, 0% 50%; }
+    to { background-position: 0% 50%, 100% 50%; }
+}
+@keyframes moke-image-led-glow {
+    from { box-shadow: 0 0 12px rgba(39, 121, 190, 0.48), 0 0 24px rgba(214, 168, 79, 0.28); }
+    to { box-shadow: 0 0 20px rgba(39, 121, 190, 0.62), 0 0 38px rgba(214, 168, 79, 0.46); }
 }
 .elementor-element-cd0647d > .elementor-container > .elementor-column,
 .elementor-element-1a27932 > .elementor-container > .elementor-column,
