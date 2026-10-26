@@ -176,10 +176,44 @@ var CZRParams = {"assetsPath":"https://mokegardens.co.ke/wp-content/themes/custo
 body {
     background-color: var(--moke-surface);
     color: var(--moke-ink);
+    position: relative;
+    isolation: isolate;
+}
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    inset: -30vmax;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.28;
+    mix-blend-mode: screen;
+}
+body::before {
+    background:
+        radial-gradient(ellipse at center, transparent 0 34%, rgba(232, 200, 120, 0.24) 34.08% 34.2%, transparent 34.3% 51%, rgba(232, 200, 120, 0.14) 51.08% 51.18%, transparent 51.3%),
+        radial-gradient(circle at 28% 26%, rgba(255, 220, 145, 0.8) 0 2px, transparent 3px),
+        radial-gradient(circle at 71% 66%, rgba(255, 220, 145, 0.65) 0 1.5px, transparent 3px);
+    animation: moke-background-orbit 72s linear infinite;
+}
+body::after {
+    background:
+        linear-gradient(118deg, transparent 46%, rgba(232, 200, 120, 0.16) 46.08% 46.18%, transparent 46.3%),
+        radial-gradient(ellipse at 63% 47%, transparent 0 28%, rgba(232, 200, 120, 0.16) 28.08% 28.18%, transparent 28.3% 43%, rgba(39, 121, 190, 0.32) 43.08% 43.28%, transparent 43.4%),
+        radial-gradient(circle at 71% 53%, rgba(255, 220, 145, 0.85) 0 2px, rgba(214, 168, 79, 0.2) 3px, transparent 9px),
+        radial-gradient(ellipse at 26% 75%, rgba(214, 168, 79, 0.12), transparent 35%);
+    animation: moke-background-drift 54s ease-in-out infinite alternate;
 }
 .tc-header,
 .tc-header .primary-navbar__wrapper {
     background-color: #2779BE !important;
+}
+#tc-page-wrap {
+    position: relative;
+    z-index: 1;
+}
+.skip-link:focus {
+    z-index: 3;
 }
 .elementor.elementor-1114 {
     color: var(--moke-ink);
@@ -404,6 +438,14 @@ body {
     from { box-shadow: 0 0 12px rgba(39, 121, 190, 0.48), 0 0 24px rgba(214, 168, 79, 0.28); }
     to { box-shadow: 0 0 20px rgba(39, 121, 190, 0.62), 0 0 38px rgba(214, 168, 79, 0.46); }
 }
+@keyframes moke-background-orbit {
+    from { transform: rotate(0deg) translate3d(-1%, 0, 0); }
+    to { transform: rotate(360deg) translate3d(1%, 0, 0); }
+}
+@keyframes moke-background-drift {
+    from { transform: rotate(-8deg) translate3d(-2%, 1%, 0); }
+    to { transform: rotate(8deg) translate3d(2%, -1%, 0); }
+}
 .elementor-element-cd0647d > .elementor-container > .elementor-column,
 .elementor-element-1a27932 > .elementor-container > .elementor-column,
 .elementor-element-7cf7720 > .elementor-container > .elementor-column,
@@ -509,6 +551,17 @@ body {
 .elementor-element-9486981 .elementor-widget-image img {
     border-radius: 12px;
 }
+.elementor-element-106637b .elementor-widget-container,
+.elementor-element-493dc99 .elementor-widget-container,
+.elementor-element-a8ed67a .elementor-widget-container {
+    overflow: hidden;
+    border-radius: 12px;
+}
+.elementor-element-106637b img,
+.elementor-element-493dc99 img,
+.elementor-element-a8ed67a img {
+    transition: transform 320ms cubic-bezier(0.2, 0.7, 0.2, 1), filter 320ms ease;
+}
 .elementor-element-7cf7720 .elementor-wrapper,
 .elementor-element-7cf7720 .elementor-video,
 .elementor-element-7cf7720 iframe {
@@ -542,6 +595,37 @@ body {
 .elementor-element-575abb9 {
     background-color: var(--moke-deep-navy) !important;
 }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .elementor-element-2d7dc8b,
+    .elementor-element-cd0647d,
+    .elementor-element-1a27932,
+    .elementor-element-7cf7720,
+    .elementor-element-9486981,
+    .elementor-element-96a0199 .elementor-widget-text-editor {
+        transition: transform 260ms ease, box-shadow 260ms ease;
+    }
+    .elementor-element-2d7dc8b:hover,
+    .elementor-element-cd0647d:hover,
+    .elementor-element-1a27932:hover,
+    .elementor-element-7cf7720:hover,
+    .elementor-element-9486981:hover,
+    .elementor-element-96a0199 .elementor-widget-text-editor:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 42px rgba(23, 52, 92, 0.22);
+    }
+    .elementor-element-boma-yangu .elementor-widget-container {
+        transition: transform 260ms ease;
+    }
+    .elementor-element-boma-yangu .elementor-widget-container:hover {
+        transform: translateY(-3px) scale(1.025);
+    }
+    .elementor-element-106637b:hover img,
+    .elementor-element-493dc99:hover img,
+    .elementor-element-a8ed67a:hover img {
+        transform: scale(1.035);
+        filter: saturate(1.08);
+    }
+}
 @media (max-width: 767px) {
     .elementor.elementor-1114 {
         font-size: 15px;
@@ -566,6 +650,10 @@ body {
     }
 }
 @media (prefers-reduced-motion: reduce) {
+    body::before,
+    body::after {
+        animation: none;
+    }
     .elementor-element-7cf7720,
     .elementor-element-9486981,
     .elementor-element-boma-yangu .elementor-widget-container {
