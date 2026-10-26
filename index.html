@@ -551,6 +551,76 @@ body::after {
 .elementor-element-9486981 .elementor-widget-image img {
     border-radius: 12px;
 }
+.elementor-element-9486981 .elementor-element-a8ed67a .elementor-widget-container {
+    border-radius: 12px;
+}
+.moke-slideshow-image-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 12px;
+    background: var(--moke-deep-navy);
+}
+.moke-slideshow-image-frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform-origin: 50% 50%;
+    transition: opacity 240ms ease, transform 360ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.moke-slideshow-image-frame img.moke-slide-changing {
+    opacity: 0.25;
+}
+.elementor-element-9486981 .elementor-element-a8ed67a .moke-slideshow-image-frame img {
+    transition: opacity 240ms ease, transform 360ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.moke-slideshow-controls {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 0 0;
+}
+.elementor-element-9486981.moke-slideshow-ready .moke-slideshow-controls {
+    display: flex;
+}
+@media (prefers-reduced-motion: reduce) {
+    .elementor-element-9486981 .elementor-element-a8ed67a .moke-slideshow-image-frame img {
+        transition: none;
+    }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .elementor-element-9486981 .elementor-element-a8ed67a .moke-slideshow-image-frame img {
+        cursor: zoom-in;
+    }
+    .elementor-element-9486981 .elementor-element-a8ed67a .moke-slideshow-image-frame:hover img,
+    .elementor-element-9486981 .elementor-element-a8ed67a .moke-slideshow-image-frame img.moke-image-zoomed {
+        transform: scale(1.65);
+    }
+}
+.moke-slideshow-controls button {
+    border: 1px solid var(--moke-gold);
+    border-radius: 999px;
+    padding: 8px 16px;
+    background: var(--moke-deep-navy);
+    color: #FFFFFF;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+}
+.moke-slideshow-controls button:hover,
+.moke-slideshow-controls button:focus-visible {
+    background: var(--moke-navy);
+    outline: 2px solid #FFFFFF;
+    outline-offset: 2px;
+}
+.moke-slideshow-status {
+    color: #FFFFFF;
+    font-size: 14px;
+}
 .elementor-element-106637b .elementor-widget-container,
 .elementor-element-493dc99 .elementor-widget-container,
 .elementor-element-a8ed67a .elementor-widget-container {
@@ -914,12 +984,189 @@ body::after {
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-a8ed67a elementor-widget elementor-widget-image" data-id="a8ed67a" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-															<img fetchpriority="high" decoding="async" width="1024" height="576" src="https://mokegardens.co.ke/wp-content/uploads/2022/02/estate1-1024x576.jpg" class="attachment-large size-large wp-image-956" alt="Moke Gardens residential development" srcset="https://mokegardens.co.ke/wp-content/uploads/2022/02/estate1-1024x576.jpg 1024w, https://mokegardens.co.ke/wp-content/uploads/2022/02/estate1-300x169.jpg 300w, https://mokegardens.co.ke/wp-content/uploads/2022/02/estate1-768x432.jpg 768w, https://mokegardens.co.ke/wp-content/uploads/2022/02/estate1-1536x864.jpg 1536w, https://mokegardens.co.ke/wp-content/uploads/2022/02/estate1-1110x624.jpg 1110w, https://mokegardens.co.ke/wp-content/uploads/2022/02/estate1-528x297.jpg 528w, https://mokegardens.co.ke/wp-content/uploads/2022/02/estate1.jpg 1599w" sizes="(max-width: 1024px) 100vw, 1024px" />															</div>
+					<div class="moke-slideshow-image-frame">
+															<img fetchpriority="high" decoding="async" width="1024" height="576" src="https://mokegardens.co.ke/wp-content/uploads/2022/02/estate1-1024x576.jpg" class="attachment-large size-large wp-image-956" alt="Moke Gardens estate photo" srcset="https://mokegardens.co.ke/wp-content/uploads/2022/02/estate1-1024x576.jpg 1024w, https://mokegardens.co.ke/wp-content/uploads/2022/02/estate1-300x169.jpg 300w, https://mokegardens.co.ke/wp-content/uploads/2022/02/estate1-768x432.jpg 768w, https://mokegardens.co.ke/wp-content/uploads/2022/02/estate1-1536x864.jpg 1536w, https://mokegardens.co.ke/wp-content/uploads/2022/02/estate1-1110x624.jpg 1110w, https://mokegardens.co.ke/wp-content/uploads/2022/02/estate1-528x297.jpg 528w, https://mokegardens.co.ke/wp-content/uploads/2022/02/estate1.jpg 1599w" sizes="(max-width: 1024px) 100vw, 1024px" />
+					</div>
+					<div class="moke-slideshow-controls" aria-label="Estate photo slideshow controls">
+						<button type="button" class="moke-slideshow-toggle">Pause slideshow</button>
+						<button type="button" class="moke-slideshow-next">Next photo</button>
+						<span class="moke-slideshow-status" aria-live="off"></span>
+					</div>
+				</div>
 				</div>
 					</div>
 		</div>
 					</div>
 		</section>
+		<script>
+		(function () {
+			var slideshow = document.querySelector(".elementor-element-9486981");
+			var image = slideshow && slideshow.querySelector(".elementor-element-a8ed67a img");
+			var imageFrame = slideshow && slideshow.querySelector(".moke-slideshow-image-frame");
+			var toggle = slideshow && slideshow.querySelector(".moke-slideshow-toggle");
+			var next = slideshow && slideshow.querySelector(".moke-slideshow-next");
+			var status = slideshow && slideshow.querySelector(".moke-slideshow-status");
+			if (!image || !imageFrame || !toggle || !next || !status) return;
+
+			var base = "https://mokegardens.co.ke/wp-content/uploads/2022/02/";
+			var photos = [
+				"moke23.jpg", "estate1.jpg", "apartments11.jpg", "apartments21.jpg",
+				"maisonettes21.jpg", "moke234.jpg", "stairs-maisonette-5.jpg",
+				"kitchen-apartments-1-2-1.jpg", "house-1.jpg", "house-3.jpg",
+				"house-4.jpg", "house-9.jpg", "house-10.jpg", "house-11.jpg",
+				"house-18.jpg", "house-19.jpg", "house-21.jpg", "house-23.jpg",
+				"house-24.jpg", "house-25.jpg", "house-51.png", "house-81.png",
+				"house-151.png", "house-171.png"
+			].map(function (photo) { return base + photo; }).concat([
+				"https://mokegardens.co.ke/wp-content/uploads/2024/02/DJI_0182-V-scaled.jpg",
+				"https://mokegardens.co.ke/wp-content/uploads/2024/02/DJI_0185-scaled.jpg",
+				"https://mokegardens.co.ke/wp-content/uploads/2024/02/IMG_9334.jpg",
+				"https://mokegardens.co.ke/wp-content/uploads/2024/02/IMG_9417.jpg",
+				"https://mokegardens.co.ke/wp-content/uploads/2024/02/IMG_9422.jpg",
+				"https://mokegardens.co.ke/wp-content/uploads/2024/02/IMG_9424.jpg",
+				"https://mokegardens.co.ke/wp-content/uploads/2024/02/IMG_9436.jpg",
+				"https://mokegardens.co.ke/wp-content/uploads/2024/02/IMG_9448.jpg",
+				"https://mokegardens.co.ke/wp-content/uploads/2024/02/IMG_9467.jpg"
+			]);
+			var currentIndex = 1;
+			var remaining = [];
+			var timer = null;
+			var loading = false;
+			var loadingIsManual = false;
+			var slideRequest = 0;
+			var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+			var paused = reduceMotion.matches;
+
+			image.removeAttribute("srcset");
+			image.removeAttribute("sizes");
+			imageFrame.addEventListener("pointerenter", function (event) {
+				if (event.pointerType === "mouse" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+					image.classList.add("moke-image-zoomed");
+				}
+			});
+			imageFrame.addEventListener("pointermove", function (event) {
+				if (event.pointerType !== "mouse") return;
+				if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+					image.classList.remove("moke-image-zoomed");
+					return;
+				}
+				image.classList.add("moke-image-zoomed");
+				var bounds = imageFrame.getBoundingClientRect();
+				var x = Math.max(0, Math.min(100, ((event.clientX - bounds.left) / bounds.width) * 100));
+				var y = Math.max(0, Math.min(100, ((event.clientY - bounds.top) / bounds.height) * 100));
+				image.style.transformOrigin = x + "% " + y + "%";
+			});
+			imageFrame.addEventListener("pointerleave", function () {
+				image.classList.remove("moke-image-zoomed");
+				image.style.transformOrigin = "50% 50%";
+			});
+
+			function shuffle(indices) {
+				for (var i = indices.length - 1; i > 0; i--) {
+					var randomIndex = Math.floor(Math.random() * (i + 1));
+					var temporary = indices[i];
+					indices[i] = indices[randomIndex];
+					indices[randomIndex] = temporary;
+				}
+				return indices;
+			}
+
+			function updateStatus() {
+				status.textContent = "Photo " + (currentIndex + 1) + " of " + photos.length;
+				toggle.textContent = paused ? "Play slideshow" : "Pause slideshow";
+				toggle.setAttribute("aria-label", paused ? "Play slideshow" : "Pause slideshow");
+			}
+
+			function syncTimer() {
+				if (timer) {
+					window.clearInterval(timer);
+					timer = null;
+				}
+				if (!paused && !reduceMotion.matches && !document.hidden) {
+					timer = window.setInterval(function () { showNext(false); }, 5000);
+				}
+			}
+
+			function cancelAutomaticLoad() {
+				if (loading && !loadingIsManual) {
+					slideRequest++;
+					loading = false;
+					loadingIsManual = false;
+					next.disabled = false;
+					image.classList.remove("moke-slide-changing");
+				}
+			}
+
+			function showNext(manual) {
+				if (!manual && paused) return;
+				if (loading) return;
+				if (!remaining.length) {
+					remaining = shuffle(photos.map(function (_, index) {
+						return index;
+					}).filter(function (index) {
+						return index !== currentIndex;
+					}));
+				}
+				loading = true;
+				loadingIsManual = !!manual;
+				next.disabled = true;
+				var nextIndex = remaining.pop();
+				var request = ++slideRequest;
+				var preload = new Image();
+				preload.onload = function () {
+					if (request !== slideRequest) return;
+					image.classList.add("moke-slide-changing");
+					window.setTimeout(function () {
+						if (request !== slideRequest) return;
+						image.src = photos[nextIndex];
+						image.alt = "Moke Gardens estate photo";
+						currentIndex = nextIndex;
+						updateStatus();
+						loading = false;
+						loadingIsManual = false;
+						next.disabled = false;
+						window.requestAnimationFrame(function () {
+							image.classList.remove("moke-slide-changing");
+						});
+					}, 180);
+				};
+				preload.onerror = function () {
+					if (request !== slideRequest) return;
+					loading = false;
+					loadingIsManual = false;
+					next.disabled = false;
+					paused = true;
+					syncTimer();
+					updateStatus();
+					status.textContent = "A gallery photo could not be loaded. The slideshow is paused.";
+					console.error("Could not load Moke Gardens gallery photo:", photos[nextIndex]);
+				};
+				preload.src = photos[nextIndex];
+			}
+
+			toggle.addEventListener("click", function () {
+				paused = !paused;
+				if (paused) cancelAutomaticLoad();
+				updateStatus();
+				syncTimer();
+			});
+			next.addEventListener("click", function () { showNext(true); });
+			document.addEventListener("visibilitychange", syncTimer);
+			if (reduceMotion.addEventListener) {
+				reduceMotion.addEventListener("change", function (event) {
+					if (event.matches) {
+						paused = true;
+						cancelAutomaticLoad();
+					}
+					updateStatus();
+					syncTimer();
+				});
+			}
+			slideshow.classList.add("moke-slideshow-ready");
+			updateStatus();
+			syncTimer();
+		}());
+		</script>
 				<div class="elementor-section elementor-top-section elementor-element elementor-element-cd0647d elementor-section-full_width elementor-section-stretched elementor-section-height-default elementor-section-height-default" data-id="cd0647d" data-element_type="section" data-e-type="section" data-settings="{&quot;stretch_section&quot;:&quot;section-stretched&quot;,&quot;background_background&quot;:&quot;classic&quot;}">
 						<div class="elementor-container elementor-column-gap-no">
 				<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-apartment-section-title" data-element_type="column">
