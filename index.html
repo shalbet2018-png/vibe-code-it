@@ -203,6 +203,17 @@ body {
 .elementor-element-boma-yangu .elementor-widget-container {
     display: flex;
     justify-content: center;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 14px;
+    border: 6px solid transparent;
+    border-radius: 18px;
+    background:
+        linear-gradient(#FFFFFF, #FFFFFF) padding-box,
+        linear-gradient(110deg, #2779BE, #D6A84F, #2779BE, #E8C878, #2779BE) border-box;
+    background-size: 100% 100%, 300% 300%;
+    animation: moke-image-led-flow 5s linear infinite, moke-image-led-glow 2.4s ease-in-out infinite alternate;
 }
 .elementor-element-boma-yangu img {
     width: 153px;
@@ -556,7 +567,8 @@ body {
 }
 @media (prefers-reduced-motion: reduce) {
     .elementor-element-7cf7720,
-    .elementor-element-9486981 {
+    .elementor-element-9486981,
+    .elementor-element-boma-yangu .elementor-widget-container {
         animation: none;
     }
 }
