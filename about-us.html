@@ -8,17 +8,19 @@
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     <link rel="stylesheet" href="property-pages.css">
 </head>
-<body><div class="site-shell">
+<body>
+    <a class="skip-link" href="#main">Skip to content</a><div class="site-shell">
     <header class="site-header"><div class="header-inner">
         <a class="brand" href="index.html" aria-label="Moke Gardens home"><img src="images/moke-logo-light.png" alt="Moke Gardens – Experience Living" width="161" height="87"></a>
-        <nav class="site-nav" aria-label="Main navigation">
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span></span></button>
+                <nav class="site-nav" id="site-nav" aria-label="Main navigation">
             <a href="index.html">HOME</a><a href="apartments.html">APARTMENTS</a><a href="maisonette.html">MAISONETTES</a><a href="why-moke.html">WHY MOKE</a>
             <details><summary>VIRTUAL TOUR</summary><div class="nav-dropdown"><a href="2bed-virtual-tour.html">2 BEDROOM APARTMENT</a><a href="3bed-virtual-tour.html">3 BEDROOM APARTMENT</a></div></details>
             <details><summary>GALLERY</summary><div class="nav-dropdown"><a href="construction-progress.html">CONSTRUCTION PROGRESS</a><a href="photo-gallery.html">PHOTOS</a><a href="videos.html">VIDEOS</a></div></details>
             <a href="about-us.html" aria-current="page">ABOUT US</a><a href="contact-us.html">CONTACT US</a>
         </nav>
     </div></header>
-    <main class="page-content">
+    <main class="page-content" id="main">
         <section class="content-card"><h2>Our Story</h2><p>Lukenya is an emerging area for home buyers and investors. As infrastructure develops and the area connects with Nairobi’s economy, Moke Gardens was created to bring homes to this growing neighbourhood while preserving a peaceful setting. The gated-community concept reflects a commitment to security and residents’ comfort.</p></section>
         <div class="feature-grid">
             <section class="feature-card"><h2>Our Vision</h2><p>To create a world-class estate that changes the way people live, work and play through innovative, eco-friendly and affordable developments.</p></section>
@@ -27,5 +29,6 @@
         <section class="content-card"><h2>Our Values</h2><div class="value-grid"><div class="value-card"><h3>Quality</h3><p>Thoughtful homes and resident-focused design.</p></div><div class="value-card"><h3>Affordability</h3><p>Housing options designed to make home ownership more accessible.</p></div><div class="value-card"><h3>Innovation</h3><p>Practical ideas that improve how communities live.</p></div><div class="value-card"><h3>Teamwork &amp; eco-friendly living</h3><p>Working together to support a sustainable community.</p></div></div></section>
     </main>
     <footer class="site-footer"><p>All rights reserved</p><p>Designed and Developed by covntcash</p></footer>
-</div></body>
+</div>    <script src="site.js" defer></script>
+</body>
 </html>

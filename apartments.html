@@ -10,13 +10,15 @@
     <link rel="stylesheet" href="property-pages.css">
 </head>
 <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <div class="site-shell">
         <header class="site-header">
             <div class="header-inner">
                 <a class="brand" href="index.html" aria-label="Moke Gardens home">
                     <img src="images/moke-logo-light.png" alt="Moke Gardens – Experience Living" width="161" height="87">
                 </a>
-                <nav class="site-nav" aria-label="Main navigation">
+                <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span></span></button>
+                <nav class="site-nav" id="site-nav" aria-label="Main navigation">
                     <a href="index.html">HOME</a>
                     <a href="apartments.html" aria-current="page">APARTMENTS</a>
                     <a href="maisonette.html">MAISONETTES</a>
@@ -42,7 +44,7 @@
             </div>
         </header>
 
-        <main class="page-content">
+        <main class="page-content" id="main">
             <section class="hero" aria-labelledby="page-title">
                 <img class="hero-image" src="https://mokegardens.co.ke/wp-content/uploads/2026/06/apartments-home.jpg" alt="Moke Gardens apartments">
                 <div class="hero-copy">
@@ -113,5 +115,6 @@
             <p>Designed and Developed by covntcash</p>
         </footer>
     </div>
+    <script src="site.js" defer></script>
 </body>
 </html>
