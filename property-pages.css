@@ -1436,3 +1436,16 @@ body::after {
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
     text-transform: uppercase;
 }
+
+/* Contact page: WhatsApp button matches the homepage one */
+.contact-links a.btn-whatsapp {
+    border-color: #1FB855;
+    background: linear-gradient(135deg, #2BD66B, #17A34A);
+    color: #06301A;
+}
+
+.contact-links a.btn-whatsapp:hover,
+.contact-links a.btn-whatsapp:focus-visible {
+    background: linear-gradient(135deg, #45E07F, #1FB855);
+    color: #06301A;
+}
