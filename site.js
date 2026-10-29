@@ -56,6 +56,68 @@
         items.forEach(function (el) { el.classList.add('is-visible'); });
     }
 
+    // Photo lightbox: links with data-lightbox open in a full-screen viewer
+    var links = Array.prototype.slice.call(document.querySelectorAll('a[data-lightbox]'));
+    if (links.length && typeof HTMLDialogElement === 'function') {
+        var dlg = document.createElement('dialog');
+        dlg.className = 'lightbox';
+        dlg.setAttribute('aria-label', 'Photo viewer');
+        dlg.innerHTML =
+            '<figure><img alt=""></figure>' +
+            '<p class="lightbox-caption" aria-live="polite"></p>' +
+            '<button type="button" class="lightbox-close" aria-label="Close">×</button>' +
+            '<button type="button" class="lightbox-prev" aria-label="Previous photo">‹</button>' +
+            '<button type="button" class="lightbox-next" aria-label="Next photo">›</button>';
+        document.body.appendChild(dlg);
+        var img = dlg.querySelector('img');
+        var cap = dlg.querySelector('.lightbox-caption');
+        var set = [], idx = 0;
+
+        var show = function (i) {
+            idx = (i + set.length) % set.length;
+            var a = set[idx];
+            var thumb = a.querySelector('img');
+            img.src = a.getAttribute('href');
+            img.alt = thumb ? thumb.alt : '';
+            cap.textContent = a.getAttribute('data-caption') || '';
+            var n = document.createElement('span');
+            n.textContent = (idx + 1) + ' / ' + set.length;
+            cap.appendChild(n);
+            var multi = set.length > 1;
+            dlg.querySelector('.lightbox-prev').hidden = !multi;
+            dlg.querySelector('.lightbox-next').hidden = !multi;
+        };
+
+        links.forEach(function (a) {
+            a.addEventListener('click', function (e) {
+                e.preventDefault();
+                var g = a.getAttribute('data-lightbox');
+                set = links.filter(function (l) { return l.getAttribute('data-lightbox') === g; });
+                show(set.indexOf(a));
+                dlg.showModal();
+            });
+        });
+
+        dlg.querySelector('.lightbox-close').addEventListener('click', function () { dlg.close(); });
+        dlg.querySelector('.lightbox-prev').addEventListener('click', function () { show(idx - 1); });
+        dlg.querySelector('.lightbox-next').addEventListener('click', function () { show(idx + 1); });
+        dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target.tagName === 'FIGURE') dlg.close(); });
+        dlg.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowLeft') show(idx - 1);
+            if (e.key === 'ArrowRight') show(idx + 1);
+        });
+        dlg.addEventListener('close', function () { img.removeAttribute('src'); });
+
+        var startX = null;
+        dlg.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
+        dlg.addEventListener('touchend', function (e) {
+            if (startX === null) return;
+            var dx = e.changedTouches[0].clientX - startX;
+            if (Math.abs(dx) > 50) show(idx + (dx < 0 ? 1 : -1));
+            startX = null;
+        });
+    }
+
     var year = document.querySelector('[data-year]');
     if (year) year.textContent = new Date().getFullYear();
 })();
