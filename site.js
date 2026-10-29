@@ -9,8 +9,12 @@
         var setOpen = function (open) {
             nav.classList.toggle('is-open', open);
             toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-            toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+            toggle.querySelector('.nav-toggle-text').textContent = open ? 'Close' : 'Menu';
         };
+
+        nav.addEventListener('click', function (e) {
+            if (e.target.closest('a')) setOpen(false);
+        });
 
         toggle.addEventListener('click', function () {
             setOpen(!nav.classList.contains('is-open'));
