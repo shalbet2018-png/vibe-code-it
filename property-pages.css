@@ -1169,21 +1169,21 @@ body::after {
 .lightbox-prev { top: 50%; left: 14px; transform: translateY(-50%); }
 .lightbox-next { top: 50%; right: 14px; transform: translateY(-50%); }
 
-/* WhatsApp */
+/* WhatsApp (inline buttons) */
 .btn-whatsapp {
-    border-color: #25D366;
-    background: #25D366;
-    color: #0B2E19;
+    border-color: #1FB855;
+    background: linear-gradient(135deg, #2BD66B, #17A34A);
+    color: #06301A;
 }
 
 .btn-whatsapp:hover,
 .btn-whatsapp:focus-visible {
-    background: #4BE07F;
+    background: linear-gradient(135deg, #45E07F, #1FB855);
 }
 
 .content-card a.btn-whatsapp,
 .contact-links a.btn-whatsapp {
-    color: #0B2E19;
+    color: #06301A;
 }
 
 .btn-whatsapp svg {
@@ -1192,32 +1192,68 @@ body::after {
     flex: 0 0 auto;
 }
 
+/* Floating chat + call buttons */
 .fab-stack {
     position: fixed;
-    right: 16px;
-    bottom: 16px;
+    right: 20px;
+    bottom: 20px;
     z-index: 8;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 10px;
+    gap: 12px;
 }
 
 .fab-stack .btn {
-    box-shadow: 0 10px 26px rgba(12, 30, 56, 0.4);
-}
-
-.fab-stack .call-fab {
-    position: static;
-}
-
-.fab-stack .btn {
-    width: 56px;
-    height: 56px;
+    position: relative;
+    width: 60px;
+    height: 60px;
     min-height: 0;
     padding: 0;
+    border: 3px solid #FFFFFF;
+    box-shadow:
+        0 2px 4px rgba(12, 30, 56, 0.18),
+        0 10px 24px rgba(12, 30, 56, 0.32);
+    transition: transform 200ms ease, box-shadow 200ms ease;
 }
 
+.fab-stack .btn:hover,
+.fab-stack .btn:focus-visible {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow:
+        0 4px 8px rgba(12, 30, 56, 0.2),
+        0 16px 32px rgba(12, 30, 56, 0.38);
+}
+
+.fab-stack .btn-whatsapp {
+    background: linear-gradient(145deg, #2BD66B 0%, #12A150 100%);
+    color: #FFFFFF;
+}
+
+.fab-stack .btn-whatsapp svg {
+    width: 32px;
+    height: 32px;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.15));
+}
+
+/* Soft pulse ring to draw the eye, every few seconds */
+.fab-stack .btn-whatsapp::before {
+    position: absolute;
+    inset: -3px;
+    z-index: -1;
+    border-radius: 999px;
+    background: #25D366;
+    content: "";
+    animation: wa-pulse 3.2s ease-out infinite;
+}
+
+@keyframes wa-pulse {
+    0% { opacity: 0.55; transform: scale(1); }
+    60% { opacity: 0; transform: scale(1.55); }
+    100% { opacity: 0; transform: scale(1.55); }
+}
+
+/* Label that slides out on hover (desktop); kept for screen readers otherwise */
 .fab-stack .btn span {
     position: absolute;
     width: 1px;
@@ -1227,14 +1263,45 @@ body::after {
     white-space: nowrap;
 }
 
-.fab-stack .btn svg {
-    width: 28px;
-    height: 28px;
+@media (hover: hover) and (min-width: 701px) {
+    .fab-stack .btn-whatsapp span {
+        top: 50%;
+        right: calc(100% + 12px);
+        width: auto;
+        height: auto;
+        padding: 9px 14px;
+        overflow: visible;
+        clip: auto;
+        border-radius: 10px;
+        background: #FFFFFF;
+        color: var(--moke-deep-navy);
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0;
+        box-shadow: 0 8px 22px rgba(12, 30, 56, 0.3);
+        opacity: 0;
+        pointer-events: none;
+        transform: translate(8px, -50%);
+        transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .fab-stack .btn-whatsapp:hover span,
+    .fab-stack .btn-whatsapp:focus-visible span {
+        opacity: 1;
+        transform: translate(0, -50%);
+    }
+}
+
+.fab-stack .call-fab {
+    position: relative;
+    inset: auto;
+    background: linear-gradient(145deg, var(--moke-light-gold), var(--moke-gold));
+    color: var(--moke-deep-navy);
 }
 
 .fab-stack .call-fab svg {
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
 }
 
 @media (max-width: 700px) {
@@ -1242,12 +1309,28 @@ body::after {
         padding-top: 210px;
     }
 
+    .fab-stack {
+        right: 14px;
+        bottom: 14px;
+        gap: 10px;
+    }
+
     .fab-stack .btn {
-        width: 52px;
-        height: 52px;
+        width: 54px;
+        height: 54px;
+    }
+
+    .fab-stack .btn-whatsapp svg {
+        width: 29px;
+        height: 29px;
     }
 }
 
+@media (prefers-reduced-motion: reduce) {
+    .fab-stack .btn-whatsapp::before {
+        display: none;
+    }
+}
 
 @media (max-width: 700px) {
     .lightbox figure {
