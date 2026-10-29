@@ -118,6 +118,19 @@
         });
     }
 
+    // Click-to-play YouTube: swap the poster for the real player on demand
+    document.querySelectorAll('.video-lite[data-youtube]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var f = document.createElement('iframe');
+            f.src = 'https://www.youtube-nocookie.com/embed/' + btn.getAttribute('data-youtube') + '?autoplay=1&rel=0&playsinline=1';
+            f.title = (btn.getAttribute('aria-label') || 'Video').replace('Play video: ', '');
+            f.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+            f.allowFullscreen = true;
+            btn.replaceWith(f);
+            f.focus();
+        });
+    });
+
     var year = document.querySelector('[data-year]');
     if (year) year.textContent = new Date().getFullYear();
 })();
