@@ -1817,3 +1817,21 @@ body::after {
 @media (prefers-reduced-motion: reduce) {
     .hero-slide { transition: none; transform: none; }
 }
+.hero-slides .hero-render-label {
+    top: 16px;
+    left: 16px;
+    right: auto;
+    bottom: auto;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+.hero-slide.is-active[data-illustrative] + .hero-render-label {
+    opacity: 1;
+}
+@media (max-width: 600px) {
+    .hero-slides .hero-render-label {
+        top: 52px;
+        left: auto;
+        right: 16px;
+    }
+}
