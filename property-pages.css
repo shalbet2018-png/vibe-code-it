@@ -1736,3 +1736,39 @@ body::after {
         flex: 0 0 auto;
     }
 }
+
+/* Illustrative visual label on artist's impressions */
+.render-figure {
+    position: relative;
+    margin: 0;
+}
+.render-figure img {
+    display: block;
+}
+.render-label {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    z-index: 2;
+    padding: 4px 10px;
+    border: 1px solid var(--moke-gold);
+    border-radius: 999px;
+    background: rgba(23, 52, 92, 0.88);
+    color: #FFFFFF;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    pointer-events: none;
+}
+.hero > .render-label {
+    top: 14px;
+    bottom: auto;
+}
+.gallery-grid .render-figure .render-label {
+    bottom: auto;
+    top: 10px;
+}
+.gallery-grid .render-figure {
+    border: 1px solid var(--moke-gold);
+}
