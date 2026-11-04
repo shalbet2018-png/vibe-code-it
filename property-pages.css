@@ -1112,6 +1112,10 @@ body::after {
     background: rgba(255, 255, 255, 0.06);
 }
 
+.interior-grid + h3 {
+    margin-top: 28px;
+}
+
 .plan-grid img {
     aspect-ratio: 4 / 5;
     padding: 10px;
