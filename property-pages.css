@@ -35,13 +35,13 @@ body::after {
     z-index: 0;
     pointer-events: none;
     content: "";
-    opacity: 0.28;
+    opacity: 0.5;
     mix-blend-mode: screen;
 }
 
 body::before {
     background:
-        radial-gradient(ellipse at center, transparent 0 34%, rgba(232, 200, 120, 0.24) 34.08% 34.2%, transparent 34.3% 51%, rgba(232, 200, 120, 0.14) 51.08% 51.18%, transparent 51.3%),
+        radial-gradient(ellipse at center, transparent 0 34%, rgba(232, 200, 120, 0.34) 34.06% 34.24%, transparent 34.32% 51%, rgba(232, 200, 120, 0.22) 51.06% 51.22%, transparent 51.3%),
         radial-gradient(circle at 28% 26%, rgba(255, 220, 145, 0.8) 0 2px, transparent 3px),
         radial-gradient(circle at 71% 66%, rgba(255, 220, 145, 0.65) 0 1.5px, transparent 3px);
     animation: moke-background-orbit 72s linear infinite;
@@ -49,8 +49,8 @@ body::before {
 
 body::after {
     background:
-        linear-gradient(118deg, transparent 46%, rgba(232, 200, 120, 0.16) 46.08% 46.18%, transparent 46.3%),
-        radial-gradient(ellipse at 63% 47%, transparent 0 28%, rgba(232, 200, 120, 0.16) 28.08% 28.18%, transparent 28.3% 43%, rgba(39, 121, 190, 0.32) 43.08% 43.28%, transparent 43.4%),
+        linear-gradient(118deg, transparent 46%, rgba(232, 200, 120, 0.24) 46.06% 46.22%, transparent 46.3%),
+        radial-gradient(ellipse at 63% 47%, transparent 0 28%, rgba(232, 200, 120, 0.24) 28.06% 28.22%, transparent 28.3% 43%, rgba(39, 121, 190, 0.32) 43.08% 43.28%, transparent 43.4%),
         radial-gradient(circle at 71% 53%, rgba(255, 220, 145, 0.85) 0 2px, rgba(214, 168, 79, 0.2) 3px, transparent 9px),
         radial-gradient(ellipse at 26% 75%, rgba(214, 168, 79, 0.12), transparent 35%);
     animation: moke-background-drift 54s ease-in-out infinite alternate;
