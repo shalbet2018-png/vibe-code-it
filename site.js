@@ -162,6 +162,103 @@
         document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
     }
 
+    // Why Moke showcase: crossfading slideshow with arrows, dots, pause, swipe and keyboard.
+    // Autoplay pauses on hover/focus, when the tab is hidden, and never starts with reduced motion.
+    Array.prototype.forEach.call(document.querySelectorAll('[data-showcase]'), function (show) {
+        var DELAY = 6000;
+        var stage = show.querySelector('.showcase-stage');
+        var slides = Array.prototype.slice.call(show.querySelectorAll('.showcase-slide'));
+        var dotsWrap = show.querySelector('.showcase-dots');
+        var toggle = show.querySelector('.showcase-toggle');
+        var bar = show.querySelector('.showcase-progress span');
+        var status = show.querySelector('.showcase-status');
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var cur = 0, timer = null, paused = reduce, hold = false;
+        if (slides.length < 2) return;
+
+        var dots = slides.map(function (s, i) {
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.setAttribute('aria-label', 'Show slide ' + (i + 1) + ': ' + s.querySelector('figcaption').textContent);
+            b.addEventListener('click', function () { go(i, true); });
+            dotsWrap.appendChild(b);
+            return b;
+        });
+
+        function load(s) {
+            var img = s.querySelector('img');
+            if (img && img.dataset.srcset) {
+                img.srcset = img.dataset.srcset;
+                img.src = img.dataset.srcset.split(', ').pop().split(' ')[0];
+                delete img.dataset.srcset;
+            }
+        }
+        function runBar() {
+            if (!bar) return;
+            bar.style.transition = 'none';
+            bar.style.width = '0';
+            if (paused || hold) return;
+            void bar.offsetWidth;
+            bar.style.transition = 'width ' + DELAY + 'ms linear';
+            bar.style.width = '100%';
+        }
+        function schedule() {
+            clearTimeout(timer); timer = null;
+            if (!paused && !hold && !document.hidden) timer = setTimeout(function () { go(cur + 1); }, DELAY);
+            runBar();
+        }
+        function go(n, user) {
+            n = (n + slides.length) % slides.length;
+            load(slides[n]); load(slides[(n + 1) % slides.length]);
+            slides[cur].classList.remove('is-active');
+            slides[cur].setAttribute('aria-hidden', 'true');
+            dots[cur].removeAttribute('aria-current');
+            cur = n;
+            slides[cur].classList.add('is-active');
+            slides[cur].removeAttribute('aria-hidden');
+            dots[cur].setAttribute('aria-current', 'true');
+            stage.classList.toggle('is-illustrative', slides[cur].hasAttribute('data-illustrative'));
+            if (user && status) status.textContent = 'Slide ' + (cur + 1) + ' of ' + slides.length + ': ' + slides[cur].querySelector('figcaption').textContent;
+            schedule();
+        }
+        function setPaused(p) {
+            paused = p;
+            toggle.classList.toggle('is-paused', p);
+            toggle.setAttribute('aria-label', p ? 'Play slideshow' : 'Pause slideshow');
+            schedule();
+        }
+
+        show.querySelector('.showcase-arrow.is-prev').addEventListener('click', function () { go(cur - 1, true); });
+        show.querySelector('.showcase-arrow.is-next').addEventListener('click', function () { go(cur + 1, true); });
+        toggle.addEventListener('click', function () { setPaused(!paused); });
+
+        // Hold (not pause) while the visitor is pointing at or focused inside the slideshow
+        stage.addEventListener('mouseenter', function () { hold = true; schedule(); });
+        stage.addEventListener('mouseleave', function () { hold = false; schedule(); });
+        show.addEventListener('focusin', function () { hold = true; schedule(); });
+        show.addEventListener('focusout', function (e) { if (!show.contains(e.relatedTarget)) { hold = false; schedule(); } });
+
+        show.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1, true); }
+            else if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1, true); }
+        });
+
+        var sx = null, sy = 0;
+        stage.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+        stage.addEventListener('touchend', function (e) {
+            if (sx === null) return;
+            var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+            sx = null;
+            if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1), true);
+        });
+
+        document.addEventListener('visibilitychange', schedule);
+        dots[0].setAttribute('aria-current', 'true');
+        stage.classList.toggle('is-illustrative', slides[0].hasAttribute('data-illustrative'));
+        load(slides[1]);
+        setPaused(paused);
+    });
+
     var year = document.querySelector('[data-year]');
     if (year) year.textContent = new Date().getFullYear();
 })();

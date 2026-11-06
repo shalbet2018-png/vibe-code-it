@@ -2116,3 +2116,192 @@ body::after {
         flex: 0 0 120px;
     }
 }
+
+/* Why Moke showcase slideshow */
+.showcase {
+    margin: 6px 0 24px;
+}
+.showcase-stage {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--moke-gold);
+    border-radius: 14px;
+    background: #0C1E38;
+    box-shadow: 0 10px 24px rgba(12, 30, 56, 0.25);
+    touch-action: pan-y;
+}
+.showcase-track {
+    position: absolute;
+    inset: 0;
+}
+.showcase-slide {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.9s ease, visibility 0s linear 0.9s;
+}
+.showcase-slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.9s ease, visibility 0s;
+}
+.showcase-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.04);
+    transition: transform 7s ease-out;
+}
+.showcase-slide.is-active img {
+    transform: scale(1);
+}
+.showcase-slide figcaption {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 48px 76px 22px 20px;
+    background: linear-gradient(to top, rgba(12, 30, 56, 0.88), rgba(12, 30, 56, 0));
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.35;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+.showcase-stage .showcase-render-label {
+    top: 14px;
+    right: auto;
+    bottom: auto;
+    left: 14px;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+.showcase-stage.is-illustrative .showcase-render-label {
+    opacity: 1;
+}
+.showcase-arrow,
+.showcase-toggle {
+    position: absolute;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid rgba(232, 200, 120, 0.7);
+    border-radius: 999px;
+    background: rgba(12, 30, 56, 0.78);
+    color: #FFFFFF;
+    line-height: 1;
+    cursor: pointer;
+}
+.showcase-arrow {
+    top: 50%;
+    width: 48px;
+    height: 48px;
+    font-size: 30px;
+    transform: translateY(-50%);
+}
+.showcase-arrow.is-prev { left: 14px; }
+.showcase-arrow.is-next { right: 14px; }
+.showcase-toggle {
+    right: 14px;
+    bottom: 18px;
+    width: 40px;
+    height: 40px;
+}
+.showcase-toggle span {
+    width: 12px;
+    height: 14px;
+    border-right: 4px solid currentColor;
+    border-left: 4px solid currentColor;
+}
+.showcase-toggle.is-paused span {
+    width: 0;
+    height: 0;
+    margin-left: 4px;
+    border-top: 8px solid transparent;
+    border-right: 0;
+    border-bottom: 8px solid transparent;
+    border-left: 13px solid currentColor;
+}
+.showcase-arrow:hover,
+.showcase-arrow:focus-visible,
+.showcase-toggle:hover,
+.showcase-toggle:focus-visible {
+    background: var(--moke-gold);
+    color: var(--moke-deep-navy);
+}
+.showcase-progress {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.15);
+}
+.showcase-progress span {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: var(--moke-gold);
+}
+.showcase-dots {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 10px;
+}
+.showcase-dots button {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+.showcase-dots button::before {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border: 1px solid var(--moke-light-gold);
+    border-radius: 50%;
+}
+.showcase-dots button[aria-current="true"]::before {
+    background: var(--moke-light-gold);
+}
+.showcase-dots button:focus-visible {
+    outline: 2px solid #FFFFFF;
+    outline-offset: -2px;
+    border-radius: 50%;
+}
+.showcase-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+@media (max-width: 700px) {
+    .showcase-stage { aspect-ratio: 4 / 3; }
+    .showcase-arrow { width: 40px; height: 40px; font-size: 26px; }
+    .showcase-arrow.is-prev { left: 8px; }
+    .showcase-arrow.is-next { right: 8px; }
+    .showcase-toggle { right: 8px; bottom: 14px; width: 36px; height: 36px; }
+    .showcase-slide figcaption { padding: 40px 56px 18px 14px; font-size: 14px; }
+    .showcase-stage .showcase-render-label { top: 10px; left: 10px; }
+    .showcase-dots { gap: 2px; }
+    .showcase-dots button { width: 17px; height: 22px; }
+    .showcase-dots button::before { inset: 6px 3px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .showcase-slide,
+    .showcase-slide.is-active,
+    .showcase-slide img { transition: none; transform: none; }
+}
