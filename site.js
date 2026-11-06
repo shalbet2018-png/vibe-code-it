@@ -259,6 +259,28 @@
         setPaused(paused);
     });
 
+    // Contact page: contact-us.html?unit=3-bedroom pre-fills the WhatsApp message with that unit.
+    // Only the known unit types below are accepted, so nothing from the URL is shown as-is.
+    var bookingNote = document.querySelector('[data-booking-note]');
+    if (bookingNote) {
+        var UNITS = {
+            'studio': 'studio apartment (24 sq.m, Kshs 1,800,000)',
+            '1-bedroom': '1 bedroom apartment (44 sq.m, Kshs 3,500,000)',
+            '2-bedroom': '2 bedroom apartment (70 sq.m, Kshs 5,000,000)',
+            '3-bedroom': '3 bedroom apartment (102 sq.m, Kshs 6,500,000)'
+        };
+        var unitKey = (location.search.match(/[?&]unit=([a-z0-9-]+)/) || [])[1];
+        var unit = unitKey && Object.prototype.hasOwnProperty.call(UNITS, unitKey) ? UNITS[unitKey] : null;
+        if (unit) {
+            var msg = "Hello Moke Gardens, I'd like to book a viewing of the " + unit + '. Which days are available?';
+            Array.prototype.forEach.call(document.querySelectorAll('a[href^="https://wa.me/"]'), function (a) {
+                a.href = a.href.split('?')[0] + '?text=' + encodeURIComponent(msg);
+            });
+            bookingNote.textContent = 'Booking a viewing of the ' + unit + '. Tap WhatsApp and your message is ready to send.';
+            bookingNote.hidden = false;
+        }
+    }
+
     var year = document.querySelector('[data-year]');
     if (year) year.textContent = new Date().getFullYear();
 })();

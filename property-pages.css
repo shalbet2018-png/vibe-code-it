@@ -2305,3 +2305,35 @@ body::after {
     .showcase-slide.is-active,
     .showcase-slide img { transition: none; transform: none; }
 }
+
+/* Tour pages: unit-specific booking */
+.tour-aside .tour-book {
+    gap: 8px;
+}
+.tour-book-alt {
+    margin: 0;
+    font-size: 14px;
+    text-align: center;
+}
+.tour-book-alt a {
+    color: var(--moke-light-gold);
+    font-weight: 700;
+    text-underline-offset: 3px;
+}
+.tour-book-alt a:hover,
+.tour-book-alt a:focus-visible {
+    color: #FFFFFF;
+}
+.booking-note {
+    margin: 0 0 14px;
+    padding: 10px 14px;
+    border-left: 3px solid var(--moke-gold);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    font-weight: 700;
+}
+.tour-booking {
+    display: grid;
+    gap: 10px;
+    align-content: start;
+}
