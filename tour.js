@@ -72,6 +72,52 @@
             maxSize = Math.min(2048, gl.getParameter(gl.MAX_CUBE_MAP_TEXTURE_SIZE) || 2048);
         }
 
+        // CSS 3D fallback. Browsers refuse to give WebGL images loaded from file:// (pages opened by
+        // double-clicking the .html file), so in that case each face is drawn as a plain <img> on a CSS cube.
+        var FACE_SIZE = 2048;
+        var FACE_TRANSFORMS = [
+            'rotateY(0deg)', 'rotateY(-90deg)', 'rotateY(180deg)', 'rotateY(90deg)',
+            'rotateX(-90deg)', 'rotateX(90deg)'
+        ];
+        var cssMode = false, cube = null, faces = [], shown = false;
+        var cssOk = window.CSS && CSS.supports && CSS.supports('transform-style', 'preserve-3d');
+
+        function useCss() {
+            if (cssMode) return;
+            cssMode = true;
+            canvas.style.display = 'none';
+            view.classList.remove('is-static');
+            view.style.perspectiveOrigin = '50% 50%';
+            cube = document.createElement('div');
+            cube.className = 'tour-cube';
+            cube.setAttribute('aria-hidden', 'true');
+            cube.style.cssText = 'position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d;pointer-events:none;';
+            for (var k = 0; k < 6; k++) {
+                var f = document.createElement('img');
+                f.alt = '';
+                f.draggable = false;
+                f.decoding = 'async';
+                // Faces are drawn 2px oversize so no hairline seams show between them.
+                f.style.cssText = 'position:absolute;display:block;max-width:none;' +
+                    'width:' + (FACE_SIZE + 2) + 'px;height:' + (FACE_SIZE + 2) + 'px;' +
+                    'left:' + (-FACE_SIZE / 2 - 1) + 'px;top:' + (-FACE_SIZE / 2 - 1) + 'px;' +
+                    'backface-visibility:hidden;-webkit-backface-visibility:hidden;' +
+                    'transform:' + FACE_TRANSFORMS[k] + ' translateZ(' + (-FACE_SIZE / 2) + 'px);';
+                cube.appendChild(f);
+                faces.push(f);
+            }
+            view.insertBefore(cube, canvas);
+        }
+
+        function renderCss() {
+            var h = view.clientHeight || 1;
+            var f = (h / 2) / Math.tan(state.fov * Math.PI / 360);
+            view.style.perspective = f + 'px';
+            cube.style.transform = 'translateZ(' + f + 'px) rotateX(' + state.pitch + 'deg) rotateY(' + state.yaw + 'deg)';
+        }
+
+        if (cssOk && (location.protocol === 'file:' || /[?&]tour=css\b/.test(location.search))) useCss();
+
         // Cube faces (front, right, back, left, up, down) -> WebGL cube-map targets
         var TARGETS = gl ? [
             gl.TEXTURE_CUBE_MAP_NEGATIVE_Z, gl.TEXTURE_CUBE_MAP_NEGATIVE_X,
@@ -108,6 +154,7 @@
         }
 
         function render() {
+            if (cssMode) { if (shown) renderCss(); return; }
             if (!gl || !tex) return;
             var dpr = Math.min(window.devicePixelRatio || 1, 2);
             var w = Math.round(view.clientWidth * dpr), h = Math.round(view.clientHeight * dpr);
@@ -136,25 +183,42 @@
                 b.setAttribute('aria-current', j === i ? 'true' : 'false');
             });
             view.classList.add('is-loading');
-            if (!gl) {
+            if (!gl && !cssMode) {
                 view.style.backgroundImage = 'url("' + base + r.id + '/0' + EXT + '")';
                 view.classList.remove('is-loading');
                 return;
             }
             var imgs = [], pending = 6;
+            function done() {
+                if (token !== loadToken) return;
+                if (!cssMode) {
+                    try {
+                        upload(imgs);
+                    } catch (err) {
+                        // WebGL blocked the images (e.g. a page opened from file://): switch to the CSS cube.
+                        if (!cssOk) { view.classList.remove('is-loading'); return; }
+                        useCss();
+                    }
+                }
+                if (cssMode) {
+                    imgs.forEach(function (im, k) { faces[k].src = im.src; });
+                    shown = true;
+                }
+                state.yaw = r.yaw || 0;
+                state.pitch = 0;
+                view.classList.remove('is-loading');
+                render();
+            }
             for (var k = 0; k < 6; k++) {
                 (function (k) {
                     var im = new Image();
                     im.decoding = 'async';
                     im.onload = function () {
                         imgs[k] = im;
-                        if (--pending === 0 && token === loadToken) {
-                            upload(imgs);
-                            state.yaw = r.yaw || 0;
-                            state.pitch = 0;
-                            view.classList.remove('is-loading');
-                            render();
-                        }
+                        if (--pending === 0) done();
+                    };
+                    im.onerror = function () {
+                        if (token === loadToken) view.classList.remove('is-loading');
                     };
                     im.src = base + r.id + '/' + k + EXT;
                 })(k);
@@ -241,7 +305,7 @@
         // Gentle auto-rotate until the visitor takes control
         var last = null;
         function tick(t) {
-            if (state.auto && !document.hidden && last !== null && tex) {
+            if (state.auto && !document.hidden && last !== null && (tex || shown)) {
                 state.yaw += (t - last) * 0.006;
                 render();
             }
