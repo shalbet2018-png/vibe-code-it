@@ -7,3 +7,9 @@ desktop.ini
 .DS_Store
 *.tmp
 ~$*
+
+# Working files (fliers, proposals, print PDFs, fonts) live in files/ but are not
+# part of the website. Only files the site links to are published; add a "!" line
+# for any new file in files/ that the site should serve.
+files/*
+!files/moke-gardens-brochure.pdf
