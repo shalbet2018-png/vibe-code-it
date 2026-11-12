@@ -38,7 +38,7 @@
         rooms.forEach(function (r, i) {
             var b = document.createElement('button');
             b.type = 'button';
-            b.innerHTML = '<img alt="" loading="lazy" decoding="async"><span></span>';
+            b.innerHTML = '<img alt="" width="320" height="213" decoding="async"><span></span>';
             b.querySelector('img').src = base + 'thumbs/' + r.id + '.webp';
             b.querySelector('span').textContent = r.title;
             b.addEventListener('click', function () { show(i); });

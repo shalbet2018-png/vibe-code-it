@@ -2,6 +2,28 @@
 (function () {
     document.documentElement.classList.add('js');
 
+    // Lazy images: the real source sits in data-lazy-src / data-lazy-srcset and is
+    // swapped in shortly before the image scrolls into view.
+    var lazyImgs = document.querySelectorAll('img[data-lazy-src]');
+    var showImg = function (img) {
+        if (img.dataset.lazySrcset) { img.srcset = img.dataset.lazySrcset; delete img.dataset.lazySrcset; }
+        img.src = img.dataset.lazySrc;
+        delete img.dataset.lazySrc;
+    };
+    if ('IntersectionObserver' in window) {
+        var imgIo = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    imgIo.unobserve(entry.target);
+                    showImg(entry.target);
+                }
+            });
+        }, { rootMargin: '400px 0px' });
+        Array.prototype.forEach.call(lazyImgs, function (img) { imgIo.observe(img); });
+    } else {
+        Array.prototype.forEach.call(lazyImgs, showImg);
+    }
+
     var toggle = document.querySelector('.nav-toggle');
     var nav = document.getElementById('site-nav');
 
