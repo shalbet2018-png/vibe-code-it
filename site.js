@@ -272,11 +272,11 @@
         var unitKey = (location.search.match(/[?&]unit=([a-z0-9-]+)/) || [])[1];
         var unit = unitKey && Object.prototype.hasOwnProperty.call(UNITS, unitKey) ? UNITS[unitKey] : null;
         if (unit) {
-            var msg = "Hello Moke Gardens, I'd like to book a viewing of the " + unit + '. Which days are available?';
+            var msg = "Hello Moke Gardens, I'd like to inquire about the " + unit + '. Please share more details.';
             Array.prototype.forEach.call(document.querySelectorAll('a[href^="https://wa.me/"]'), function (a) {
                 a.href = a.href.split('?')[0] + '?text=' + encodeURIComponent(msg);
             });
-            bookingNote.textContent = 'Booking a viewing of the ' + unit + '. Tap WhatsApp and your message is ready to send.';
+            bookingNote.textContent = 'Asking about the ' + unit + '. Tap WhatsApp and your message is ready to send.';
             bookingNote.hidden = false;
         }
     }
